@@ -1,0 +1,35 @@
+mat-card {
+  min-width: 100%;
+  max-width: 375px;
+  border-radius: 15px;
+}
+mat-card-header {
+  margin: 0 !important;
+}
+mat-card-content {
+  margin: 0 !important;
+  text-align: justify !important;
+  min-width: 100%;
+  max-width: 375px;
+}
+.quiz-card {
+  max-width: 400px;
+}
+.options {
+  word-wrap: break-word !important;
+}
+.img-fluid {
+  margin: 0px !important;
+}
+.answer-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 1px 0px;
+  align-items: flex-start;
+}
+.answer-radio-button {
+  margin: 1px 0px;
+}
+.wrap-mat-radio-label {
+  white-space: normal;
+}

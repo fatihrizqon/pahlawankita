@@ -1,0 +1,30 @@
+<main>
+  <div class="container">
+    <mat-toolbar id="header" color="primary">
+      <div class="spacer"></div>
+      <button mat-button class="m-2" color="accent" routerLink="/">Home</button>
+      <button mat-button class="m-2" color="accent" routerLink="/quiz">
+        Quiz
+      </button>
+      <button mat-button class="m-2" color="accent" routerLink="/results">
+        Leaderboard
+      </button>
+      <div class="spacer"></div>
+    </mat-toolbar>
+  </div>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="container">
+    <mat-toolbar id="footer" color="primary">
+      <div class="spacer"></div>
+
+      <button mat-icon-button (click)="changeMode($event)">
+        <i *ngIf="!light" class="bx bxs-sun bx-sm" style="color: #ffd600"></i>
+        <i *ngIf="light" class="bx bxs-moon bx-sm" style="color: #212121"></i>
+      </button>
+
+      <div class="spacer"></div
+    ></mat-toolbar>
+  </div>
+</main>

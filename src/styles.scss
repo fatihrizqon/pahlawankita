@@ -1,0 +1,29 @@
+@import "./themes/global.scss";
+@import url("https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap");
+
+* {
+  font-family: "Titillium Web", sans-serif;
+}
+
+html,
+body {
+  font-family: "Titillium Web", sans-serif;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-y: scroll; /* Add the ability to scroll */
+  overflow-x: scroll; /* Add the ability to scroll */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

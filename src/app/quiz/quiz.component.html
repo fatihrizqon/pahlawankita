@@ -1,0 +1,96 @@
+<section>
+  <div
+    class="row justify-content-center animate__animated animate__slideInUp m-2"
+    style="min-height: 85vh"
+  >
+    <div class="col-md-12 col-lg-4 mb-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <span
+          ><b>Remaining Time: {{ counter }}</b></span
+        >
+
+        <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
+          <b>Your Score: {{ score }}</b>
+        </span>
+
+        <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none">
+          <span *ngFor="let health of healths"
+            ><i class="bx bx-heart bx-sm" style="color: #ff0000"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-md-12 col-lg-4 mb-3">
+      <div *ngIf="!loading">
+        <mat-card class="quiz-card" *ngFor="let question of question">
+          <div class="d-flex justify-content-center">
+            <img
+              mat-card-image
+              class="img-fluid"
+              src="{{ baseURL }}assets/heroes/{{ question.id }}.jpg"
+              alt="PahlawanKita | Quiz Image"
+            />
+          </div>
+
+          <mat-card-content class="mb-3">
+            {{ question.description }}. Lahir di {{ question.origin }} pada
+            {{ question.date_of_birth }}.
+          </mat-card-content>
+
+          <div
+            class="options"
+            *ngFor="let option of options"
+            aria-label="options"
+          >
+            <form [formGroup]="quizForm">
+              <mat-radio-group
+                name="option"
+                formControlName="option"
+                color="primary"
+                required="true"
+              >
+                <mat-radio-button id="{{ option.id }}" [value]="option.id">
+                  <span class="wrap-mat-radio-label">
+                    {{ option.name }}
+                  </span>
+                </mat-radio-button>
+                <br />
+              </mat-radio-group>
+            </form>
+          </div>
+
+          <mat-card-actions align="end">
+            <button
+              mat-button
+              color="accent"
+              (click)="submit()"
+              [disabled]="!quizForm.valid"
+            >
+              Submit
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div
+        class="d-flex justify-content-center"
+        *ngIf="loading"
+        style="height: 100vh"
+      >
+        <div class="d-flex align-items-center">
+          <i class="bx bx-loader-circle bx-lg bx-spin" style="color: red"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-none d-lg-block d-xl-block col-lg-4 mb-3">
+      <div align="end">
+        <b>Your Score: {{ score }}</b
+        ><span class="align-middle m-1" *ngFor="let health of healths"
+          ><i class="bx bx-heart bx-sm" style="color: #ff0000"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<section>
+  <div class="container">
+    <div class="row" style="min-height: 85vh">
+      <div class="col-12 mt-3" *ngFor="let result of results; index as i">
+        <mat-card
+          *ngIf="!loading"
+          class="d-flex justify-content-between animate__animated animate__slideInRight"
+        >
+          <span> {{ i + 1 }}. {{ result.username }} </span>
+
+          <span>
+            <span *ngIf="i + 1 == 1">🥇🥇🥇</span>
+            <span *ngIf="i + 1 == 2">🥈🥈</span>
+            <span *ngIf="i + 1 == 3">🥉</span>
+            <span *ngIf="i + 1 > 3">🏅</span>
+            <b> Score: {{ result.score }} </b>
+          </span>
+        </mat-card>
+
+        <div class="d-flex justify-content-center" *ngIf="loading">
+          <div class="d-flex align-items-center">
+            <i class="bx bx-loader-circle bx-lg bx-spin" style="color: red"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
