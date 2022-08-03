@@ -1,4 +1,4 @@
-const url = `https://api-pahlawankita/api/`
+const url = `https://api-pahlawankita.herokuapp.com/api/`
 const answer_button = document.querySelector("#answer_button");
 const question = document.querySelector("#question");
 const options = document.querySelector("#options");
