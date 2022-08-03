@@ -1,0 +1,16 @@
+{
+  "name": "pahlawankita",
+  "version": "1.0.0",
+  "description": "PahlawanKita App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npx tailwindcss -i ./src/input.css -o ./assets/css/style.css --watch"
+  },
+  "author": "fatihrizqon",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.8",
+    "tailwindcss": "^3.1.7"
+  }
+}

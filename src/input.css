@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: linear-gradient(312deg, #00ffbd, #00b9ff, #ff00f5);
+  background-size: 600% 600%;
+
+  -webkit-animation: AnimationName 60s ease infinite;
+  -moz-animation: AnimationName 60s ease infinite;
+  animation: AnimationName 60s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+  0% {
+    background-position: 15% 0%;
+  }
+  50% {
+    background-position: 86% 100%;
+  }
+  100% {
+    background-position: 15% 0%;
+  }
+}
+@-moz-keyframes AnimationName {
+  0% {
+    background-position: 15% 0%;
+  }
+  50% {
+    background-position: 86% 100%;
+  }
+  100% {
+    background-position: 15% 0%;
+  }
+}
+@keyframes AnimationName {
+  0% {
+    background-position: 15% 0%;
+  }
+  50% {
+    background-position: 86% 100%;
+  }
+  100% {
+    background-position: 15% 0%;
+  }
+}
