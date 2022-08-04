@@ -1,12 +1,17 @@
-const url = `https://api-pahlawankita.herokuapp.com/api/`
+const url = `https://api-pahlawankita.herokuapp.com/api/`;
 const answer_button = document.querySelector("#answer_button");
 const question = document.querySelector("#question");
+const question_card = document.querySelector("#question_card");
 const options = document.querySelector("#options");
 const results = document.querySelector("#results");
 const clue = document.querySelector("#clue");
+const health_info = document.querySelector("#health");
+
 let section = 'home';
 let score = 0;
+let health = 3;
 let question_id;
+let timer;
 
 /* Navbar Effects */
 window.onscroll = () => {
@@ -28,18 +33,49 @@ window.onload = () => {
 }
 
 function index() {
-    window.location = `https://fatihrizqon.github.io/pahlawankita`;
+    // window.location = `https://fatihrizqon.github.io/pahlawankita`;
+    window.location = `http://127.0.0.1:5500/index.html`;
+}
+
+function getTimer() {
+    document.querySelector("#score").innerHTML = 'Score: ' + score;
+    var sec = 15;
+    timer = setInterval(function () {
+        document.querySelector("#timer").innerHTML = 'Remaining Time: ' + sec;
+        sec--;
+        if (sec < 0) {
+            clearInterval(timer);
+            health--;
+            return getQuiz();
+        }
+    }, 1000);
 }
 
 function getQuiz() {
-    // timer
+    // this.getChances();
+    if (health === 0) {
+        window.clearInterval(timer);
+        alert(`[Quiz Over] Oops... you are missed out your chance.`);
+        // change the min. score
+        if (score > 10) {
+            if (confirm(`Your score is ${ score }. Do you want to save this score ?`)) {
+                save(score)
+            } else {
+                // Quiz Closed. Return to base and reset score
+                index();
+            }
+        } else {
+            // Quiz Closed. Return to base and reset score
+            index();
+        }
+    }
     fetch(url + `quiz`)
         .then((response) => response.json())
         .then((response) => {
             question_id = response.data.question[0].id
             clue.innerHTML =
                 `<div class="w-[200px] h-[200px] md:w-[250px] md:h-[250px] bg-cover rounded-full" style="background-image: url('https://direktoratk2krs.kemsos.go.id/admin-pc/assets/img/pahlawan/${ question_id }.jpg');"> </div>`
-            question.innerHTML = `${ response.data.question[0].description }. Beliau lahir pada ${ response.data.question[0].date_of_birth } dan berasal dari ${ response.data.question[0].origin }. ${ response.data.question[0].name }`
+            question.innerHTML = `${ response.data.question[0].description }. Beliau lahir pada ${ response.data.question[0].date_of_birth } dan berasal dari ${ response.data.question[0].origin }.`
             options.innerHTML = '';
             for (option of response.data.options) {
                 options.innerHTML += `<span class="flex items-center gap-x-2">
@@ -47,6 +83,7 @@ function getQuiz() {
                     <label for="${ option.id }">${ option.name }</label>
                 </span>`
             }
+            return this.getTimer();
         })
         .catch((response) => console.log(response))
 }
@@ -66,27 +103,39 @@ function getResult() {
         .catch((response) => console.log(response));
 }
 
+function getChances() {
+    health_info.innerHTML = 'Chances: ' + health;
+    if (health == 0) {
+        window.clearInterval(timer);
+        alert(`[Quiz Over] Oops... you are missed out your chance.`);
+    } else {
+        return true;
+    }
+}
+
 function checkAnswer() {
     let answer = document.querySelector('input[name="answer"]:checked') ?? false;
     if (answer.value === undefined) return alert("Please select an option.")
-
     if (parseInt(answer.value) === question_id) {
-        score += 1;
+        window.clearInterval(timer);
+        score++;
         alert(`Yes you are right! Your current score is ${ score }`);
-        return getQuiz();
+        return this.getQuiz();
     } else {
+        window.clearInterval(timer);
         alert(`[Quiz Over] Oops... you are picked a wrong answer.`);
-        // change the min. score
+        // health--;
+        // this.getChances();
         if (score > 10) {
             if (confirm(`Your score is ${ score }. Do you want to save this score ?`)) {
-                save(score)
+                return this.save(score)
             } else {
                 // Quiz Closed. Return to base and reset score
-                index();
+                return this.index();
             }
         } else {
             // Quiz Closed. Return to base and reset score
-            index();
+            return this.index();
         }
     }
 }
@@ -95,7 +144,7 @@ function save(score) {
     let username = prompt(`Please enter your username:`, ``);
     if (username == null || username == "") {
         // Quiz Closed. Return to base and reset score
-        index();
+        return this.index()
     } else {
         // save to database redirect to leaderboard and reset the score
         fetch(url + `result`, {
