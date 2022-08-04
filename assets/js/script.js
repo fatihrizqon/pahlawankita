@@ -9,7 +9,7 @@ const health_info = document.querySelector("#health");
 
 let section = 'home';
 let score = 0;
-let health = 3;
+let health = 2;
 let question_id;
 let timer;
 
@@ -33,8 +33,7 @@ window.onload = () => {
 }
 
 function index() {
-    // window.location = `https://fatihrizqon.github.io/pahlawankita`;
-    window.location = `http://127.0.0.1:5500/index.html`;
+    window.location = `https://fatihrizqon.github.io/pahlawankita`;
 }
 
 function getTimer() {
@@ -52,40 +51,28 @@ function getTimer() {
 }
 
 function getQuiz() {
-    // this.getChances();
-    if (health === 0) {
-        window.clearInterval(timer);
-        alert(`[Quiz Over] Oops... you are missed out your chance.`);
-        // change the min. score
-        if (score > 10) {
-            if (confirm(`Your score is ${ score }. Do you want to save this score ?`)) {
-                save(score)
-            } else {
-                // Quiz Closed. Return to base and reset score
-                index();
-            }
-        } else {
-            // Quiz Closed. Return to base and reset score
-            index();
-        }
-    }
-    fetch(url + `quiz`)
-        .then((response) => response.json())
-        .then((response) => {
-            question_id = response.data.question[0].id
-            clue.innerHTML =
-                `<div class="w-[200px] h-[200px] md:w-[250px] md:h-[250px] bg-cover rounded-full" style="background-image: url('https://direktoratk2krs.kemsos.go.id/admin-pc/assets/img/pahlawan/${ question_id }.jpg');"> </div>`
-            question.innerHTML = `${ response.data.question[0].description }. Beliau lahir pada ${ response.data.question[0].date_of_birth } dan berasal dari ${ response.data.question[0].origin }.`
-            options.innerHTML = '';
-            for (option of response.data.options) {
-                options.innerHTML += `<span class="flex items-center gap-x-2">
+    if (this.getChances()) {
+        fetch(url + `quiz`)
+            .then((response) => response.json())
+            .then((response) => {
+                question_id = response.data.question[0].id
+                clue.innerHTML =
+                    `<div class="w-[200px] h-[200px] md:w-[250px] md:h-[250px] bg-cover rounded-full" style="background-image: url('https://direktoratk2krs.kemsos.go.id/admin-pc/assets/img/pahlawan/${ question_id }.jpg');"> </div>`
+                question.innerHTML = `${ response.data.question[0].description }. Beliau lahir pada ${ response.data.question[0].date_of_birth } dan berasal dari ${ response.data.question[0].origin }.`
+                options.innerHTML = '';
+                for (option of response.data.options) {
+                    options.innerHTML += `<span class="flex items-center gap-x-2">
                     <input type="radio" id="answer" name="answer" value="${ option.id }">
                     <label for="${ option.id }">${ option.name }</label>
                 </span>`
-            }
-            return this.getTimer();
-        })
-        .catch((response) => console.log(response))
+                }
+                return this.getTimer();
+            })
+            .catch((response) => console.log(response))
+    } else {
+        console.log('quiz over');
+        return this.index();
+    }
 }
 
 function getResult() {
@@ -108,6 +95,7 @@ function getChances() {
     if (health == 0) {
         window.clearInterval(timer);
         alert(`[Quiz Over] Oops... you are missed out your chance.`);
+        return this.stopQuiz();
     } else {
         return true;
     }
@@ -124,19 +112,23 @@ function checkAnswer() {
     } else {
         window.clearInterval(timer);
         alert(`[Quiz Over] Oops... you are picked a wrong answer.`);
-        // health--;
-        // this.getChances();
-        if (score > 10) {
-            if (confirm(`Your score is ${ score }. Do you want to save this score ?`)) {
-                return this.save(score)
-            } else {
-                // Quiz Closed. Return to base and reset score
-                return this.index();
-            }
+        health--;
+        return this.getQuiz();
+    }
+}
+
+function stopQuiz() {
+    if (score > 10) {
+        if (confirm(`Your score is ${ score }. Do you want to save this score ?`)) {
+            return this.save(score)
         } else {
             // Quiz Closed. Return to base and reset score
             return this.index();
         }
+    } else {
+        // Quiz Closed. Return to base and reset score
+        alert(`Sorry are unable to save this result. Your score is ${ score }.`);
+        return this.index();
     }
 }
 
