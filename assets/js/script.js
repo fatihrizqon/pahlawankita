@@ -9,7 +9,7 @@ const health_info = document.querySelector("#health");
 
 let section = 'home';
 let score = 0;
-let health = 2;
+let health = 5;
 let question_id;
 let timer;
 
